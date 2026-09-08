@@ -1,63 +1,77 @@
-PostgreSQL — NovaRetail México
-1. Descripción
+# PostgreSQL — NovaRetail México
 
-En esta etapa desarrollé y analicé una base de datos relacional para NovaRetail México, una cadena minorista ficticia creada como proyecto de portafolio.
+## 1. Descripción
+
+En esta etapa desarrollé y analicé una base de datos relacional para **NovaRetail México**, una cadena minorista ficticia creada como proyecto de portafolio.
 
 El objetivo fue trabajar con datos transaccionales y operativos utilizando PostgreSQL, desde la estructura y generación de los datos hasta su validación y análisis mediante SQL.
 
 El proyecto contempla información de:
 
-clientes;
-empleados;
-productos;
-sucursales;
-ventas;
-detalle de ventas;
-devoluciones;
-inventario diario.
+- Clientes
+- Empleados
+- Productos
+- Sucursales
+- Ventas
+- Detalle de ventas
+- Devoluciones
+- Inventario diario
 
-El periodo principal de análisis comprende del 01/01/2023 al 31/12/2025.
+El periodo principal de análisis comprende del **01/01/2023 al 31/12/2025**.
 
-2. Objetivo de la etapa PostgreSQL
+---
+
+## 2. Objetivo de la etapa PostgreSQL
 
 El objetivo principal fue construir una base de datos que permitiera simular una operación de retail y utilizar SQL para transformar los datos almacenados en información útil para el análisis.
 
 Durante esta etapa se trabajó en:
 
-diseño de tablas y relaciones;
-llaves primarias y foráneas;
-restricciones de integridad;
-generación de datos sintéticos;
-validación de consistencia;
-consultas analíticas;
-agregación de información;
-análisis temporal;
-análisis por producto, cliente, empleado y sucursal;
-análisis de ventas, devoluciones e inventario;
-identificación de inconsistencias en los datos.
-3. Estructura de la base de datos
+- Diseño de tablas y relaciones
+- Llaves primarias y foráneas
+- Restricciones de integridad
+- Generación de datos sintéticos
+- Validación de consistencia
+- Consultas analíticas
+- Agregación de información
+- Análisis temporal
+- Análisis por producto, cliente, empleado y sucursal
+- Análisis de ventas, devoluciones e inventario
+- Identificación de inconsistencias en los datos
 
-La base está compuesta por 8 tablas, divididas en dimensiones y tablas de hechos.
+---
 
-Dimensiones
-Tabla	Registros	Descripción
-dim_clientes	1,000	Clientes registrados
-dim_empleados	120	Empleados y puesto
-dim_productos	80	Catálogo de productos
-dim_sucursales	12	Sucursales de la empresa
-Tablas de hechos
-Tabla	Registros	Descripción
-fact_ventas	15,000	Transacciones de venta
-fact_venta_detalle	45,000	Productos incluidos en las ventas
-fact_devoluciones	600	Operaciones de devolución
-fact_inventario_diario	1,052,160	Inventario diario por sucursal y producto
+## 3. Estructura de la base de datos
 
-En total, la base contiene más de 1.1 millones de registros, siendo fact_inventario_diario la tabla de mayor volumen debido al registro diario de inventario.
+La base está compuesta por **8 tablas**, divididas en dimensiones y tablas de hechos.
 
-4. Modelo de datos
+### Dimensiones
+
+| Tabla | Registros | Descripción |
+|---|---:|---|
+| `dim_clientes` | 1,000 | Clientes registrados |
+| `dim_empleados` | 120 | Empleados y puesto |
+| `dim_productos` | 80 | Catálogo de productos |
+| `dim_sucursales` | 12 | Sucursales de la empresa |
+
+### Tablas de hechos
+
+| Tabla | Registros | Descripción |
+|---|---:|---|
+| `fact_ventas` | 15,000 | Transacciones de venta |
+| `fact_venta_detalle` | 45,000 | Productos incluidos en las ventas |
+| `fact_devoluciones` | 600 | Operaciones de devolución |
+| `fact_inventario_diario` | 1,052,160 | Inventario diario por sucursal y producto |
+
+En total, la base contiene **más de 1.1 millones de registros**, siendo `fact_inventario_diario` la tabla de mayor volumen debido al registro diario de inventario.
+
+---
+
+## 4. Modelo de datos
 
 La estructura permite relacionar las diferentes áreas de la operación:
 
+```text
                     dim_clientes
                          │
                          │
@@ -75,304 +89,365 @@ La estructura permite relacionar las diferentes áreas de la operación:
               │                  │
               ▼                  ▼
        fact_devoluciones   fact_inventario_diario
+```
 
 Las tablas de hechos almacenan información transaccional y operativa, mientras que las dimensiones proporcionan el contexto necesario para realizar análisis por cliente, producto, empleado y sucursal.
 
-5. Análisis realizado
+---
+
+## 5. Análisis realizado
 
 El análisis se estructuró mediante preguntas de negocio, utilizando SQL para obtener indicadores y encontrar patrones dentro de los datos.
 
-5.1 Clientes
+### 5.1 Clientes
 
 Se analizaron aspectos como:
 
-clientes con compras;
-frecuencia de compra;
-monto acumulado por cliente;
-ticket promedio;
-evolución anual;
-clientes sin compras.
-Principales hallazgos
+- Clientes con compras
+- Frecuencia de compra
+- Monto acumulado por cliente
+- Ticket promedio
+- Evolución anual
+- Clientes sin compras
 
-De los 1,000 clientes registrados:
+#### Principales hallazgos
 
-875 realizaron al menos una compra.
-125 no presentan compras asociadas.
-El mayor monto acumulado por cliente fue de $160,175.70.
-El mayor ticket promedio observado fue de $10,678.38.
+De los **1,000 clientes registrados**:
+
+- 875 realizaron al menos una compra.
+- 125 no presentan compras asociadas.
+- El mayor monto acumulado por cliente fue de **$160,175.70**.
+- El mayor ticket promedio observado fue de **$10,678.38**.
 
 Este análisis permite identificar diferencias entre frecuencia, valor monetario y comportamiento de compra.
 
-5.2 Productos
+---
+
+### 5.2 Productos
 
 Se analizaron:
 
-distribución de productos por categoría;
-precios;
-margen estándar;
-unidades vendidas;
-ingresos;
-utilidad;
-descuentos;
-desempeño por categoría.
-Principales hallazgos
+- Distribución de productos por categoría
+- Precios
+- Margen estándar
+- Unidades vendidas
+- Ingresos
+- Utilidad
+- Descuentos
+- Desempeño por categoría
 
-Las cuatro categorías contienen 20 productos cada una.
+#### Principales hallazgos
 
-La categoría con mayores ingresos fue Electrónica, con:
+Las cuatro categorías contienen **20 productos cada una**.
 
-$26,342,521.20
+La categoría con mayores ingresos fue **Electrónica**, con:
 
-Entre los productos con mayor utilidad acumulada se encuentra Pantalla Smart TV 55 4K, con:
+**$26,342,521.20**
 
-$769,600.00
+Entre los productos con mayor utilidad acumulada se encuentra **Pantalla Smart TV 55 4K**, con:
+
+**$769,600.00**
 
 El análisis permitió diferenciar entre productos de alta rotación, productos que generan mayores ingresos y productos con mayor contribución a la utilidad.
 
-5.3 Empleados
+---
+
+### 5.3 Empleados
 
 Se analizaron:
 
-distribución de empleados por sucursal;
-puestos;
-empleados con ventas;
-ventas por empleado;
-ticket promedio;
-desempeño por sucursal;
-evolución anual.
-Principales hallazgos
+- Distribución de empleados por sucursal
+- Puestos
+- Empleados con ventas
+- Ventas por empleado
+- Ticket promedio
+- Desempeño por sucursal
+- Evolución anual
 
-La plantilla está compuesta por 120 empleados:
+#### Principales hallazgos
 
-108 Vendedores;
-12 Gerentes.
+La plantilla está compuesta por **120 empleados**:
 
-Cada sucursal cuenta con 10 empleados.
+- 108 Vendedores
+- 12 Gerentes
 
-De los 120 empleados, 60 registraron ventas durante el periodo analizado.
+Cada sucursal cuenta con **10 empleados**.
+
+De los 120 empleados, **60 registraron ventas durante el periodo analizado**.
 
 El análisis permitió comparar el desempeño individual y observar diferencias de productividad entre empleados y sucursales.
 
-5.4 Sucursales
+---
+
+### 5.4 Sucursales
 
 Se analizaron:
 
-ventas acumuladas;
-ticket promedio;
-evolución anual;
-ventas promedio por empleado;
-inventario promedio;
-movimientos logísticos;
-relación entre ventas e inventario.
-Principales hallazgos
+- Ventas acumuladas
+- Ticket promedio
+- Evolución anual
+- Ventas promedio por empleado
+- Inventario promedio
+- Movimientos logísticos
+- Relación entre ventas e inventario
+
+#### Principales hallazgos
 
 La sucursal con mayores ventas acumuladas fue:
 
-Puebla Angelopolis — $8,544,093.10
+**Puebla Angelopolis — $8,544,093.10**
 
 Mientras que la menor fue:
 
-Leon Campestre — $8,110,450.30
+**Leon Campestre — $8,110,450.30**
 
 Los niveles de ventas entre sucursales fueron relativamente similares, permitiendo comparar su desempeño sin observar diferencias extremas.
 
-6. Análisis de ventas
+---
 
-fact_ventas permitió analizar el comportamiento general de las transacciones.
+## 6. Análisis de ventas
 
-Indicadores principales
-Indicador	Resultado
-Número de ventas	15,000
-Ventas totales	$100,750,489.20
-Subtotal acumulado	$95,300,100.00
-Descuentos	$8,446,230.00
-IVA	$13,896,619.20
-Utilidad bruta	$29,673,810.00
-Ticket promedio	$6,716.70
-Ventas por canal
-Canal	Ventas	Importe
-En Línea	7,500	$51,031,050.60
-Tienda	6,750	$43,730,880.60
-Sin especificar	750	$5,988,558.00
-Evolución anual
-Año	Ventas
-2023	$33,534,410.13
-2024	$33,650,074.02
-2025	$33,566,005.05
+`fact_ventas` permitió analizar el comportamiento general de las transacciones.
 
-El comportamiento anual fue relativamente estable, con 2024 como el año de mayores ventas.
+### Indicadores principales
 
-7. Análisis del detalle de ventas
+| Indicador | Resultado |
+|---|---:|
+| Número de ventas | 15,000 |
+| Ventas totales | $100,750,489.20 |
+| Subtotal acumulado | $95,300,100.00 |
+| Descuentos | $8,446,230.00 |
+| IVA | $13,896,619.20 |
+| Utilidad bruta | $29,673,810.00 |
+| Ticket promedio | $6,716.70 |
 
-fact_venta_detalle permitió profundizar en el comportamiento de cada producto dentro de las transacciones.
+### Ventas por canal
+
+| Canal | Ventas | Importe |
+|---|---:|---:|
+| En Línea | 7,500 | $51,031,050.60 |
+| Tienda | 6,750 | $43,730,880.60 |
+| Sin especificar | 750 | $5,988,558.00 |
+
+### Evolución anual
+
+| Año | Ventas |
+|---|---:|
+| 2023 | $33,534,410.13 |
+| 2024 | $33,650,074.02 |
+| 2025 | $33,566,005.05 |
+
+El comportamiento anual fue relativamente estable, con **2024 como el año de mayores ventas**.
+
+---
+
+## 7. Análisis del detalle de ventas
+
+`fact_venta_detalle` permitió profundizar en el comportamiento de cada producto dentro de las transacciones.
 
 Se analizaron:
 
-unidades vendidas;
-ingresos por producto;
-utilidad;
-descuentos;
-desempeño por categoría;
-precio unitario.
+- Unidades vendidas
+- Ingresos por producto
+- Utilidad
+- Descuentos
+- Desempeño por categoría
+- Precio unitario
 
 Este nivel de granularidad permitió relacionar cantidad, precio, descuentos, costos, ingresos y utilidad para evaluar el desempeño económico de los productos.
 
-La categoría Electrónica presentó los mayores ingresos acumulados:
+La categoría **Electrónica** presentó los mayores ingresos acumulados:
 
-$26,342,521.20
+**$26,342,521.20**
 
-Además, los productos de mayor utilidad superaron los $700 mil de utilidad acumulada.
+Además, los productos de mayor utilidad superaron los **$700 mil de utilidad acumulada**.
 
-8. Análisis de devoluciones
+---
 
-fact_devoluciones permitió analizar el comportamiento de las devoluciones y los reembolsos.
+## 8. Análisis de devoluciones
 
-Indicadores principales
-Indicador	Resultado
-Devoluciones	600
-Monto reembolsado	$248,089.20
-Reembolso promedio	$413.48
+`fact_devoluciones` permitió analizar el comportamiento de las devoluciones y los reembolsos.
+
+### Indicadores principales
+
+| Indicador | Resultado |
+|---|---:|
+| Devoluciones | 600 |
+| Monto reembolsado | $248,089.20 |
+| Reembolso promedio | $413.48 |
 
 También se analizaron:
 
-productos con mayor cantidad devuelta;
-productos con mayores reembolsos;
-devoluciones por categoría;
-comportamiento anual.
-Control de calidad
+- Productos con mayor cantidad devuelta
+- Productos con mayores reembolsos
+- Devoluciones por categoría
+- Comportamiento anual
 
-Se identificaron 2 devoluciones registradas en 2026, fuera del periodo principal de análisis del proyecto.
+### Control de calidad
 
-En lugar de eliminar estos registros, se conservaron y documentaron como una inconsistencia de calidad de datos.
+Se identificaron **2 devoluciones registradas en 2026**, fuera del periodo principal de análisis del proyecto.
+
+En lugar de eliminar estos registros, se conservaron y documentaron como una **inconsistencia de calidad de datos**.
 
 Esto permitió incorporar al proyecto un escenario realista de detección y documentación de problemas en los datos.
 
-9. Análisis de inventario
+---
 
-fact_inventario_diario contiene 1,052,160 registros, correspondientes al inventario diario de productos en las 12 sucursales.
+## 9. Análisis de inventario
+
+`fact_inventario_diario` contiene **1,052,160 registros**, correspondientes al inventario diario de productos en las 12 sucursales.
 
 Se analizaron:
 
-stock promedio;
-stock máximo;
-evolución temporal;
-entradas;
-salidas;
-ajustes logísticos;
-movimientos por sucursal;
-productos con mayor salida;
-relación entre inventario y ventas.
-Evolución del inventario promedio
-Año	Stock promedio
-2023	686.64
-2024	1,798.12
-2025	2,912.00
+- Stock promedio
+- Stock máximo
+- Evolución temporal
+- Entradas
+- Salidas
+- Ajustes logísticos
+- Movimientos por sucursal
+- Productos con mayor salida
+- Relación entre inventario y ventas
+
+### Evolución del inventario promedio
+
+| Año | Stock promedio |
+|---|---:|
+| 2023 | 686.64 |
+| 2024 | 1,798.12 |
+| 2025 | 2,912.00 |
 
 Se observa un incremento importante del inventario promedio durante el periodo.
 
-Movimientos acumulados
-Movimiento	Unidades
-Entradas	3,456,000
-Salidas	135,000
-Ajustes logísticos	-116,280
+### Movimientos acumulados
 
-Diciembre presentó el mayor nivel promedio de inventario, con 2,307.19 unidades.
+| Movimiento | Unidades |
+|---|---:|
+| Entradas | 3,456,000 |
+| Salidas | 135,000 |
+| Ajustes logísticos | -116,280 |
 
-10. Técnicas SQL utilizadas
+Diciembre presentó el mayor nivel promedio de inventario, con **2,307.19 unidades**.
+
+---
+
+## 10. Técnicas SQL utilizadas
 
 Durante el proyecto utilicé diferentes recursos de PostgreSQL para consultar, transformar y analizar la información:
 
-SELECT
-WHERE
-INNER JOIN
-LEFT JOIN
-GROUP BY
-ORDER BY
-LIMIT
-SUM()
-AVG()
-COUNT()
-MAX()
-EXTRACT()
-TO_CHAR()
-funciones de ventana;
-LAG();
-expresiones matemáticas;
-conversiones de tipos;
-Common Table Expressions (CTE) mediante WITH.
+- `SELECT`
+- `WHERE`
+- `INNER JOIN`
+- `LEFT JOIN`
+- `GROUP BY`
+- `ORDER BY`
+- `LIMIT`
+- `SUM()`
+- `AVG()`
+- `COUNT()`
+- `MAX()`
+- `EXTRACT()`
+- `TO_CHAR()`
+- Funciones de ventana
+- `LAG()`
+- Expresiones matemáticas
+- Conversiones de tipos
+- Common Table Expressions (CTE) mediante `WITH`
 
-Las consultas se construyeron principalmente para responder preguntas de negocio, en lugar de limitarse a ejercicios aislados de sintaxis.
+Las consultas se construyeron principalmente para responder **preguntas de negocio**, en lugar de limitarse a ejercicios aislados de sintaxis.
 
-11. Análisis temporal
+---
+
+## 11. Análisis temporal
 
 El proyecto también permitió trabajar con diferentes niveles de tiempo:
 
-año;
-mes;
-día de la semana;
-hora;
-fecha individual.
+- Año
+- Mes
+- Día de la semana
+- Hora
+- Fecha individual
 
 Esto permitió analizar tendencias de ventas e inventario y comparar el comportamiento de diferentes periodos.
 
-Por ejemplo, mediante funciones de ventana se realizó una comparación de ventas entre años utilizando LAG() para obtener el valor del periodo anterior.
+Por ejemplo, mediante funciones de ventana se realizó una comparación de ventas entre años utilizando `LAG()` para obtener el valor del periodo anterior.
 
-12. Control de calidad de datos
+---
+
+## 12. Control de calidad de datos
 
 Además del análisis descriptivo, se realizaron validaciones sobre la información.
 
 Se revisaron aspectos como:
 
-cantidad de registros;
-llaves primarias;
-relaciones entre tablas;
-valores nulos;
-consistencia temporal;
-restricciones de las tablas;
-continuidad del inventario;
-coherencia entre ventas y sus detalles.
+- Cantidad de registros
+- Llaves primarias
+- Relaciones entre tablas
+- Valores nulos
+- Consistencia temporal
+- Restricciones de las tablas
+- Continuidad del inventario
+- Coherencia entre ventas y sus detalles
 
 Un caso relevante fue la detección de devoluciones fuera del periodo principal de análisis.
 
-Otro aspecto importante fue el control de granularidad al relacionar tablas de hechos.
+Otro aspecto importante fue el **control de granularidad al relacionar tablas de hechos**.
 
-Por ejemplo, combinar directamente fact_ventas, fact_venta_detalle y fact_inventario_diario puede producir duplicación de registros debido a que cada tabla tiene una granularidad diferente.
+Por ejemplo, combinar directamente `fact_ventas`, `fact_venta_detalle` y `fact_inventario_diario` puede producir duplicación de registros debido a que cada tabla tiene una granularidad diferente.
 
-Para realizar comparaciones entre hechos se utilizaron agregaciones previas mediante CTEs antes de realizar el JOIN.
+Para realizar comparaciones entre hechos se utilizaron **agregaciones previas mediante CTEs** antes de realizar el `JOIN`.
 
 Esto permitió mantener la integridad de las métricas y evitar resultados inflados.
 
-13. Principales resultados
+---
+
+## 13. Principales resultados
 
 El análisis completo de PostgreSQL permitió obtener una visión integral de la operación simulada de NovaRetail México.
 
-Ventas
-15,000 transacciones.
-$100.75 M en ventas.
-$29.67 M de utilidad bruta.
-Ticket promedio de $6,716.70.
-Clientes
-875 clientes con compras.
-125 clientes sin compras registradas.
-Mayor monto acumulado: $160,175.70.
-Productos
-80 productos.
-4 categorías.
-Electrónica lideró los ingresos con $26.34 M.
-Sucursales
-12 sucursales.
-Puebla Angelopolis registró las mayores ventas acumuladas.
-Los niveles de ventas e inventario fueron relativamente homogéneos entre sucursales.
-Devoluciones
-600 devoluciones.
-$248,089.20 reembolsados.
-Se detectaron 2 registros fuera del periodo principal.
-Inventario
-1,052,160 registros diarios.
-3.46 M de unidades de entrada.
-135,000 unidades de salida.
-116,280 unidades de ajustes logísticos negativos.
-14. Archivos de esta etapa
+### Ventas
+
+- 15,000 transacciones
+- $100.75 M en ventas
+- $29.67 M de utilidad bruta
+- Ticket promedio de $6,716.70
+
+### Clientes
+
+- 875 clientes con compras
+- 125 clientes sin compras registradas
+- Mayor monto acumulado: $160,175.70
+
+### Productos
+
+- 80 productos
+- 4 categorías
+- Electrónica lideró los ingresos con $26.34 M
+
+### Sucursales
+
+- 12 sucursales
+- Puebla Angelopolis registró las mayores ventas acumuladas
+- Los niveles de ventas e inventario fueron relativamente homogéneos entre sucursales
+
+### Devoluciones
+
+- 600 devoluciones
+- $248,089.20 reembolsados
+- Se detectaron 2 registros fuera del periodo principal
+
+### Inventario
+
+- 1,052,160 registros diarios
+- 3.46 M de unidades de entrada
+- 135,000 unidades de salida
+- 116,280 unidades de ajustes logísticos negativos
+
+---
+
+## 14. Archivos de esta etapa
+
+```text
 PostgreSQL/
 │
 ├── README.md
@@ -381,39 +456,45 @@ PostgreSQL/
 ├── 02_generacion_datos.sql
 ├── 03_validaciones.sql
 └── 04_analisis.sql
-01_modelo_datos.sql
+```
+
+### `01_modelo_datos.sql`
 
 Contiene la estructura de la base de datos:
 
-creación de tablas;
-tipos de datos;
-llaves primarias;
-llaves foráneas;
-restricciones.
-02_generacion_datos.sql
+- Creación de tablas
+- Tipos de datos
+- Llaves primarias
+- Llaves foráneas
+- Restricciones
+
+### `02_generacion_datos.sql`
 
 Contiene la generación de los datos sintéticos utilizados por el proyecto.
 
-03_validaciones.sql
+### `03_validaciones.sql`
 
 Contiene consultas destinadas a verificar la integridad y consistencia de los datos.
 
-04_analisis.sql
+### `04_analisis.sql`
 
 Contiene las consultas utilizadas para responder las preguntas de negocio y obtener los indicadores presentados en esta etapa.
 
-15. Resultado de la etapa PostgreSQL
+---
 
-La etapa de PostgreSQL permitió trabajar con un conjunto de datos de más de 1.1 millones de registros, utilizando SQL para explorar, validar, transformar y analizar información de diferentes áreas de una operación de retail.
+## 15. Resultado de la etapa PostgreSQL
+
+La etapa de PostgreSQL permitió trabajar con un conjunto de datos de **más de 1.1 millones de registros**, utilizando SQL para explorar, validar, transformar y analizar información de diferentes áreas de una operación de retail.
 
 El trabajo realizado permitió pasar de datos transaccionales a indicadores relacionados con:
 
-ventas → clientes → productos → empleados → sucursales → devoluciones → inventario
+**Ventas → Clientes → Productos → Empleados → Sucursales → Devoluciones → Inventario**
 
 Además del análisis descriptivo, el proyecto incorpora validaciones de calidad y consideraciones sobre la granularidad de las tablas, buscando que las métricas obtenidas sean consistentes.
 
 Esta etapa constituye la base para las siguientes fases del proyecto:
 
+```text
 PostgreSQL
      ↓
 Preparación y análisis en Excel
@@ -421,3 +502,4 @@ Preparación y análisis en Excel
 Modelado y visualización en Power BI
      ↓
 Dashboard ejecutivo
+```
